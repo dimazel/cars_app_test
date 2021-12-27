@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "998542928779",
+    "project_id": "carstestapp-9d9f1",
+    "storage_bucket": "carstestapp-9d9f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998542928779:android:100ecf7c8f5b4dc040dd8e",
+        "android_client_info": {
+          "package_name": "com.example.cars_test_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998542928779-inelceald68gmrsk4qj8qcruhkuba1hh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsQpCO_q8JKal9cCOp7FQWRgjbJDAFpc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998542928779-inelceald68gmrsk4qj8qcruhkuba1hh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
