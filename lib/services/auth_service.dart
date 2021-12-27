@@ -4,7 +4,7 @@ import 'package:cars_test_app/domain/user.dart';
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<UserA?> SignInWithEmailAndPassword(String email, String password) async {
+  Future<UserA?> signInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -17,6 +17,11 @@ class AuthService {
 
   Future logOut() async{
     await _firebaseAuth.signOut();
+  }
+
+  Stream<UserA?> get currentUser{
+    return _firebaseAuth.authStateChanges()
+        .map((User? user) => user != null ? UserA.fromFirebase(user) : null);
   }
 
 }

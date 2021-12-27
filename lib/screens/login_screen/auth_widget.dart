@@ -1,8 +1,9 @@
+import 'package:cars_test_app/domain/user.dart';
 import 'package:cars_test_app/screens/HomePage/home_screen.dart';
 import 'package:cars_test_app/screens/live_video_screen/live_video_screen.dart';
+import 'package:cars_test_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class AuthWidget extends StatefulWidget {
   const AuthWidget({Key? key}) : super(key: key);
@@ -12,8 +13,33 @@ class AuthWidget extends StatefulWidget {
 }
 
 class _AuthWidgetState extends State<AuthWidget> {
+  AuthService _authService = AuthService();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  void _loginButtonAction() async {
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      UserA? user = await _authService.signInWithEmailAndPassword(
+          emailController.text + '@gmail.com', passwordController.text);
+      if (user != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) => const AlertDialog(
+                  title: Text('User not found'),
+                ));
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                title: Text('Fill in the Login and Password fields'),
+              ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
@@ -33,8 +59,7 @@ class _AuthWidgetState extends State<AuthWidget> {
               color: Color(0xFF003C8F),
             ),
             hintText: "Username",
-            hintStyle:
-            TextStyle(color: const Color(0xFF003C8F), fontSize: 18),
+            hintStyle: TextStyle(color: const Color(0xFF003C8F), fontSize: 18),
           ),
         ),
         SizedBox(
@@ -54,25 +79,16 @@ class _AuthWidgetState extends State<AuthWidget> {
               color: Color(0xFF003C8F),
             ),
             hintText: "Password",
-            hintStyle:
-            TextStyle(color: Color(0xFF003C8F), fontSize: 18),
+            hintStyle: TextStyle(color: Color(0xFF003C8F), fontSize: 18),
           ),
         ),
         SizedBox(
           height: 73,
         ),
         InkWell(
+          onTap: () {
+            _loginButtonAction();
 
-
-          onTap: () async {
-            if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
-            try{await FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: emailController.text + '@gmail.com',
-                password: passwordController.text);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-            } catch (e) {
-              showDialog(context: context, builder: (context) => const AlertDialog(title: Text('User not found'),));
-            }} else {               showDialog(context: context, builder: (context) => const AlertDialog(title: Text('Fill in the Login and Password fields'),));}
             setState(() {});
           },
           child: Container(
@@ -80,8 +96,14 @@ class _AuthWidgetState extends State<AuthWidget> {
             width: double.infinity,
             color: Color(0xFF1565C0),
             child: Center(
-              child: Text('SIGN IN', style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Roboto",
-                  fontWeight: FontWeight.w700),),
+              child: Text(
+                'SIGN IN',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w700),
+              ),
             ),
           ),
         ),
@@ -102,10 +124,9 @@ class _AuthWidgetState extends State<AuthWidget> {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LiveVideoScreen()));
-            setState(() {
-
-            });
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LiveVideoScreen()));
+            setState(() {});
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 14),
@@ -123,9 +144,7 @@ class _AuthWidgetState extends State<AuthWidget> {
             ),
           ),
         ),
-
       ],
     );
   }
 }
-
